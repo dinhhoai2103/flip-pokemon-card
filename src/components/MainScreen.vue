@@ -4,7 +4,7 @@
     <h3>Please select mode to start game</h3>
     <div class="modes-container">
       <div class="modes" v-for="mode in modes" :key="mode.name">
-        <button @click="handleStart(mode.total)">
+        <button @click="$emit('onStart', { totalBlocks: mode.total })">
           <span>{{ mode.type }}</span>
           <span>{{ mode.name }}</span>
         </button>
@@ -12,23 +12,14 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    modes: Array
-  },
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-    handleStart(totalBlocks) {
-      this.$emit('onStart', { totalBlocks })
-    }
+<script setup>
+defineProps({
+  modes: Array,
+  default: function () {
+    return []
   }
-}
+})
+defineEmits(['onStart'])
 </script>
 <style lang="css" scoped>
 .screen {

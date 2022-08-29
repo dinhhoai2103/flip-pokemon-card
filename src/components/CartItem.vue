@@ -15,53 +15,55 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    card: {
-      type: [String, Number, Array, Object],
-      required: true
-    },
-    cardUrl: {
-      type: String,
-      required: true
-    },
-    rules: {
-      type: Array,
-    },
-    cardContext: {
-      type: Array,
-      default: function () {
-        return []
-      }
+<script setup>
+import { ref } from 'vue'
+const isFlipped = ref(false)
+const isDisabled = ref(false)
+const props = defineProps({
+  card: {
+    type: [String, Number, Array, Object],
+    required: true
+  },
+  cardUrl: {
+    type: String,
+    required: true
+  },
+  rules: {
+    type: Array,
+    default: function () {
+      return []
     }
   },
-  data() {
-    return {
-      isFlipped: false,
-      isDisabled: false,
-    }
-  },
-  methods: {
-    onToggleFlipCard() {
-      if (this.isDisabled)
-        return false;
-      if (this.rules.length === 2)
-        return false;
-      this.isFlipped = !this.isFlipped
-      if (this.isFlipped)
-        this.$emit('onFlip', this.card)
-
-    },
-    onFlipBack() {
-      this.isFlipped = false
-    },
-    onDisableCard() {
-      this.isDisabled = true
+  cardContext: {
+    type: Array,
+    default: function () {
+      return []
     }
   }
+})
+const emit = defineEmits(['onFlip'])
+const onFlipBack = () => {
+  isFlipped.value = false
 }
+const onDisableCard = () => {
+  isDisabled.value = true
+}
+defineExpose({
+  name: 'cards',
+  onFlipBack,
+  onDisableCard
+})
+const onToggleFlipCard = () => {
+  if (isDisabled.value)
+    return false;
+  if (props.rules.length === 2)
+    return false;
+  isFlipped.value = !isFlipped.value
+  if (isFlipped.value)
+    emit('onFlip', props.card)
+}
+
+
 </script>
 
 <style lang="css" scoped>

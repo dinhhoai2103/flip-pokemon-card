@@ -6,20 +6,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    timer: {
-      type: Number,
-      required: true
-    }
-  },
-  methods: {
-    onStartAgain() {
-      this.$emit("onStartAgain")
-    }
+<script setup>
+const props = defineProps({
+  timer: {
+    type: Number,
+    required: true
   }
-}
+})
+const emit = defineEmits(['onStartAgain'])
+const onStartAgain = () => emit("onStartAgain")
 </script>
 <style scoped>
 .screen {

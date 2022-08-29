@@ -3,14 +3,9 @@
     <button @click="onStartAgain">Back to menu</button>
   </div>
 </template>
-<script>
-export default {
-  methods: {
-    onStartAgain() {
-      this.$emit('onStartAgain')
-    }
-  }
-}
+<script setup>
+const emit = defineEmits(['onStartAgain'])
+const onStartAgain = () => emit('onStartAgain')
 </script>
  <style lang="css" scoped>
  .copyright {
